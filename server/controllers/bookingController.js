@@ -1,4 +1,5 @@
 
+import { inngest } from "../inngest/index.js";
 import Booking from "../models/Booking.js";
 import Show from "../models/Show.js"
 import Stripe from "stripe";
@@ -83,6 +84,14 @@ export const createBooking = async(req,res)=>{
 
     booking.paymentLink = session.url
     await booking.save();
+
+    //Run inngest scheduler function to check payment status after 10 minutes, event trigger
+    await inngest.send({
+      name:'app/checkpayment',
+      data:{
+        bookingId:booking._id.toString()
+      }
+    })
 
 
     res.json({success:true,url:session.url});// frontend par bhej diya payment link so ab frontend se jayega user payment page par , here i created that payment session, and after payment success_url will open so loading screen ke baad goes to my bookings page

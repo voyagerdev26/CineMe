@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-// import { assets, dummyDateTimeData, dummyShowsData } from '../assets/assets';
-import Loading from '../components/Loading';
+import { assets, dummyDateTimeData, dummyShowsData } from '../assets/assets';
+// import Loading from '../components/Loading';
+import BlankLoading from '../components/BlankLoading';
 import { ArrowRightIcon, ClockIcon } from 'lucide-react';
 import isoTimeFormat from '../lib/isoTimeFormat';
 import BlurCircle from '../components/BlurCircle';
@@ -98,7 +99,7 @@ const SeatLayout = () => {
       if(!selectedTime || !selectedSeats.length) return toast.error("Please select a time and seats.");
 
       const {data} = await axios.post('/api/booking/create',{showId:selectedTime.showId,selectedSeats},{
-        headers:{Authorization:`Bearer ${getToken()}`}
+        headers:{Authorization:`Bearer ${ await getToken()}`}
 
       })
 
@@ -171,7 +172,7 @@ const SeatLayout = () => {
       </div>
     </div>
   ):(
-    <Loading/>
+    <BlankLoading/>
   )
 
 

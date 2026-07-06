@@ -1,7 +1,8 @@
 import { ChartLineIcon, CircleDollarSignIcon, PlayCircleIcon, StarIcon, UsersIcon } from 'lucide-react';
 import React, { useEffect,useState } from 'react'
 // import { dummyDashboardData } from '../../assets/assets';
-import Loading from '../../components/Loading';
+// import Loading from '../../components/Loading';
+import BlankLoading from '../../components/BlankLoading';
 import Title from '../../components/admin/Title';
 import BlurCircle from '../../components/BlurCircle';
 import { dateFormat } from '../../lib/dateFormat';
@@ -25,26 +26,27 @@ const Dashboard = () => {
 
   const dashboardCards=[
     {title:'Total Bookings', value:dashboardData.totalBookings||"0",icon:ChartLineIcon},
-    {title:'Total Revenue', value: currency + dashboardData.totalRevenue||"0",icon:CircleDollarSignIcon},
+    {title:'Total Revenue', value: currency + (dashboardData.totalRevenue||"0"),icon:CircleDollarSignIcon},
     {title:'Active Shows', value:dashboardData.activeShows.length||"0",icon:PlayCircleIcon},
     {title:'Total Users', value:dashboardData.totalUser||"0",icon:UsersIcon},
   ]
 
   const fetchDashboardData = async ()=>{
-    
     try {
       const {data} = await axios.get('/api/admin/dashboard',{headers:{Authorization:`Bearer ${await getToken()}`}})
       if(data.success){
         setDashboardData(data.dashboardData);
-        setLoading(false);
       }
       else{
         toast.error(data.message)
       }
     } catch (error) {
-      toast.error("Error fetching dashboard data:",error);
+      toast.error("Error fetching dashboard data");
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
-  }
+}
 
   useEffect(()=>{
     if(user){
@@ -94,7 +96,7 @@ const Dashboard = () => {
       </div>
 
     </>
-  ):<Loading/>
+  ):<BlankLoading/>
 }
 
 export default Dashboard

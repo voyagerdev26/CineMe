@@ -6,8 +6,10 @@ import { Heart, PlayCircleIcon, StarIcon } from 'lucide-react';
 import timeFormat from '../lib/timeFormat';
 import DateSelect from '../components/DateSelect';
 import MovieCard from '../components/MovieCard';
-import Loading from '../components/Loading';
+// import Loading from '../components/Loading';
+import BlankLoading from '../components/BlankLoading';
 import { useAppContext } from '../context/AppContext';
+import toast from 'react-hot-toast';
 
 
 const MovieDetails = () => {
@@ -42,14 +44,14 @@ const MovieDetails = () => {
     try {
       if(!user){
         return toast.error('Please login to proceed'); // without login we cannot add the movies to favourite list
-
-        const {data} = await axios.post('/api/user/update-favourite',{movieId:id},{headers:{Authorization:`Bearer ${await getToken()}`}})
-      
-        if(data.success){
-          await fetchFavouriteMovies();
-          toast.success(data.message);
-        }
       }
+      const {data} = await axios.post('/api/user/update-favourite',{movieId:id},{headers:{Authorization:`Bearer ${await getToken()}`}})
+    
+      if(data.success){
+        await fetchFavouriteMovies();
+        toast.success(data.message);
+      }
+  
     } catch (error) {
       console.log(error);
     }
@@ -120,7 +122,7 @@ const MovieDetails = () => {
 
     </div>
   ):(
-    <Loading/>
+    <BlankLoading/>
   )
 }
 

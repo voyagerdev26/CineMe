@@ -4,7 +4,8 @@ import AdminSidebar from '../../components/admin/AdminSidebar'
 import { Outlet } from 'react-router-dom'
 import { useAppContext } from '../../context/AppContext'
 import { useEffect } from 'react'
-import Loading from '../../components/Loading'
+// import Loading from '../../components/Loading'
+import BlankLoading from '../../components/BlankLoading'
 
 const Layout = () => {
 
@@ -25,7 +26,7 @@ const Layout = () => {
         </div>
       </div>
     </>
-  ):<Loading/>
+  ):<BlankLoading/>
 }
 
 export default Layout

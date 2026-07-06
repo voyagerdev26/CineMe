@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react'
 // import { dummyShowsData } from '../../assets/assets';
-import Loading from '../../components/Loading';
+// import Loading from '../../components/Loading';
+import BlankLoading from '../../components/BlankLoading';
 import Title from '../../components/admin/Title';
 import { CheckIcon, DeleteIcon, StarIcon } from 'lucide-react';
 import { kConverter } from '../../lib/kConverter';
@@ -23,7 +24,7 @@ const AddShows = () => {
   const fetchNowPlayingMovies = async ()=>{
     try {
       const {data} = await axios.get('/api/show/now-playing',{
-        headers:{Authorization:`Bearer ${getToken()}`}
+        headers:{Authorization:`Bearer ${await getToken()}`}
       })
       if(data.success){
         setNowPlayingMovies(data.movies);
@@ -182,7 +183,7 @@ const AddShows = () => {
     </>
 
   ):(
-    <Loading/>
+    <BlankLoading/>
   )
 }
 

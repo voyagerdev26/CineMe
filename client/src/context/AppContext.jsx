@@ -27,6 +27,7 @@ export const AppProvider = ({children})=>{
       const {data}= await axios.get('/api/admin/is-admin',{headers:{Authorization:`Bearer ${await getToken()}`}})// here not providing the complete url as only adding path , baseUrl is already added above
       
       setIsAdmin(data.isAdmin);
+      console.log(data.isAdmin);
 
       if(!data.isAdmin && location.pathname.startsWith("/admin")){
         navigate("/");
@@ -34,6 +35,7 @@ export const AppProvider = ({children})=>{
       }
     
     } catch (error) {
+      
       console.log(error);
     }
   }
@@ -53,7 +55,7 @@ export const AppProvider = ({children})=>{
 
   const fetchFavouriteMovies = async ()=>{
     try {
-      const {data} = await axios.get("/api/user/favourites",{headers:{Authorization:`Bearer ${getToken()}`}})
+      const {data} = await axios.get("/api/user/favourites",{headers:{Authorization:`Bearer ${await getToken()}`}})
       if(data.success){
         setFavouriteMovies(data.movies);
       }

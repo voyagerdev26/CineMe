@@ -1,6 +1,7 @@
 import React, {useState, useEffect } from 'react'
 // import { dummyShowsData } from '../../assets/assets';
-import Loading from '../../components/Loading';
+// import Loading from '../../components/Loading';
+import BlankLoading from '../../components/BlankLoading';
 import Title from '../../components/admin/Title';
 import { dateFormat } from '../../lib/dateFormat';
 import { useAppContext } from '../../context/AppContext';
@@ -28,9 +29,11 @@ const ListShows = () => {
       const {data} = await axios.get('/api/admin/all-shows',{headers:{Authorization:`Bearer ${await getToken()}`}})
 
       setShows(data.shows);
-      setLoading(false);
     } catch (error) {
       console.log(error);
+    }finally{
+      setLoading(false);
+
     }
   }
 
@@ -70,7 +73,7 @@ const ListShows = () => {
       </div>
     </>
   ):(
-    <Loading/>
+    <BlankLoading/>
   )
 }
 

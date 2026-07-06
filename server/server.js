@@ -40,6 +40,20 @@ app.use('/api/admin',adminRouter);
 app.use('/api/user',userRouter);
 
 
+app.get('/test-tmdb', async (req, res) => {
+  try {
+    const axios = (await import('axios')).default;
+    const { data } = await axios.get('https://api.themoviedb.org/3/movie/now_playing', {
+      headers: { Authorization: `Bearer ${process.env.TMDB_API_KEY}` }
+    });
+    res.json({ success: true, count: data.results?.length, sample: data.results?.[0]?.title });
+  } catch (error) {
+    res.json({ success: false, message: error.message, code: error.code, status: error.response?.status });
+  }
+});
+
+
+
 
 app.listen(port,()=>console.log(`Server listening at http://localhost:${port}`));
 
